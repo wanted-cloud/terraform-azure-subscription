@@ -31,10 +31,15 @@ variable "management_group_id" {
 variable "billing_account_name" {
   description = "The name of the billing account to associate with the subscription."
   type        = string
+  default     = ""
 }
 
 variable "billing_account_scope" {
   description = "The scope of the billing account to associate with the subscription."
+  type        = string
+  default     = "MCA"
+
+
 }
 
 variable "enrollment_account_name" {
@@ -58,30 +63,48 @@ variable "customer_name" {
 }
 
 variable "budgets" {
-  description = "List of budgets to be assigned under subscription group."
-  type = list(object({
-    name       = string
-    amount     = number
-    time_grain = string
-    start_date = string
-    end_date   = string
-    filter = object({
-      dimension = list(object({
-        name   = string
-        values = list(string)
-      }))
-      tag = list(object({
-        name   = string
-        values = list(string)
+  default     = []
+  description = "List of budgets to be assigned under created resource group."
+  type = list(
+    object({
+      name       = string
+      amount     = number
+      time_grain = optional(string)
+      start_date = string
+      end_date   = optional(string)
+      filter = optional(object({
+        dimensions = list(object({
+          name   = string
+          values = list(string)
+        }))
+        tags = list(object({
+          name   = string
+          values = list(string)
+        }))
+      }), null)
+      notifications = list(object({
+        contact_emails = optional(list(string))
+        contact_groups = optional(list(string))
+        contact_roles  = optional(list(string))
+        enabled        = optional(bool, true)
+        name           = string
+        threshold      = number
+        operator       = string
+        threshold_type = optional(string)
       }))
     })
-    notifications = list(object({
-      enabled        = bool
-      threshold      = number
-      operator       = string
-      threshold_type = string
-      contact_emails = list(string)
-    }))
-  }))
-  default = []
+  )
+
+  validation {
+    condition = alltrue([
+      for budget in var.budgets :
+      budget.time_grain != null ? can(
+        regex(
+          local.metadata.validator_expressions["azurerm_consumption_budget_resource_group_time_grain"],
+          budget.time_grain
+        )
+      ) : true
+    ])
+    error_message = local.metadata.validator_error_messages["azurerm_consumption_budget_resource_group_time_grain"]
+  }
 }
