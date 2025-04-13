@@ -51,33 +51,21 @@ resource "azurerm_consumption_budget_subscription" "this" {
   }
 
   timeouts {
-    create = (
-      (lookup(local.metadata.resource_timeouts, "azurerm_consumption_budget_subscription", null) != null)
-      ? (lookup(local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"], "create", null) != null)
-      ? local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["create"]
-      : local.metadata.resource_timeouts.default.create
-      : local.metadata.resource_timeouts.default.create
+    create = try(
+      local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["create"],
+      local.metadata.resource_timeouts["default"]["create"]
     )
-    read = (
-      (lookup(local.metadata.resource_timeouts, "azurerm_consumption_budget_subscription", null) != null)
-      ? (lookup(local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"], "read", null) != null)
-      ? local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["read"]
-      : local.metadata.resource_timeouts.default.read
-      : local.metadata.resource_timeouts.default.read
+    read = try(
+      local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["read"],
+      local.metadata.resource_timeouts["default"]["read"]
     )
-    update = (
-      (lookup(local.metadata.resource_timeouts, "azurerm_consumption_budget_subscription", null) != null)
-      ? (lookup(local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"], "update", null) != null)
-      ? local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["update"]
-      : local.metadata.resource_timeouts.default.update
-      : local.metadata.resource_timeouts.default.update
+    update = try(
+      local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["update"],
+      local.metadata.resource_timeouts["default"]["update"]
     )
-    delete = (
-      (lookup(local.metadata.resource_timeouts, "azurerm_consumption_budget_subscription", null) != null)
-      ? (lookup(local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"], "delete", null) != null)
-      ? local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["delete"]
-      : local.metadata.resource_timeouts.default.delete
-      : local.metadata.resource_timeouts.default.delete
+    delete = try(
+      local.metadata.resource_timeouts["azurerm_consumption_budget_subscription"]["delete"],
+      local.metadata.resource_timeouts["default"]["delete"]
     )
   }
 }

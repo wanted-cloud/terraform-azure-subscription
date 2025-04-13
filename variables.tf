@@ -38,8 +38,12 @@ variable "billing_account_scope" {
   description = "The scope of the billing account to associate with the subscription."
   type        = string
   default     = "MCA"
+}
 
-
+variable "tags" {
+  description = "A map of tags to assign to the subscription."
+  type        = map(string)
+  default     = {}
 }
 
 variable "enrollment_account_name" {

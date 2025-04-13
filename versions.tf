@@ -2,12 +2,12 @@
  * Created by WANTED.solutions s.r.o.
  */
 terraform {
-  required_version = ">= 1.9"
+  required_version = ">= 1.11"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">=3.113.0"
+      version = ">=4.20.0"
     }
   }
 }

@@ -17,15 +17,15 @@ Terraform building block for creation and management of Azure subscriptions.
 
 The following requirements are needed by this module:
 
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.9)
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.11)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (>=3.113.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (>=4.20.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>=3.113.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>=4.20.0)
 
 ## Required Inputs
 
@@ -178,6 +178,14 @@ Description: The ID of the subscription.
 Type: `string`
 
 Default: `""`
+
+### <a name="input_tags"></a> [tags](#input\_tags)
+
+Description: A map of tags to assign to the subscription.
+
+Type: `map(string)`
+
+Default: `{}`
 
 ### <a name="input_workload"></a> [workload](#input\_workload)
 
