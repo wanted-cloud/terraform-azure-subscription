@@ -5,35 +5,33 @@ resource "azurerm_consumption_budget_subscription" "this" {
 
   name            = each.value.name
   subscription_id = azurerm_subscription.this.id
-  amount          = each.value.amount
-  time_grain      = each.value.time_grain
+
+  amount     = each.value.amount
+  time_grain = each.value.time_grain
 
   time_period {
     start_date = each.value.start_date
     end_date   = each.value.end_date
   }
 
-  filter {
-    dynamic "dimension" {
-      for_each = {
-        for dimension in each.value.filter.dimensions : dimension.name => dimension
-      }
-      content {
-        name   = dimension.value.name
-        values = dimension.value.value
-      }
-
-    }
-
-    dynamic "tag" {
-      for_each = {
-        for tag in each.value.filter.tag : tag.name => tag
-      }
-      content {
-        name   = tag.value.name
-        values = tag.value.values
+  dynamic "filter" {
+    for_each = lookup(each.value, "filter", null) != null ? [each.value.filter] : []
+    content {
+      dynamic "dimension" {
+        for_each = lookup(filter.value, "dimensions", [])
+        content {
+          name   = dimensions.value.name
+          values = dimensions.value.values
+        }
       }
 
+      dynamic "tag" {
+        for_each = lookup(filter.value, "tags", [])
+        content {
+          name   = tags.value.name
+          values = tags.value.values
+        }
+      }
     }
   }
 

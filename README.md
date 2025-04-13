@@ -199,6 +199,10 @@ Default: `"Production"`
 
 The following outputs are exported:
 
+### <a name="output_Subscription_consumption_budgets"></a> [Subscription\_consumption\_budgets](#output\_Subscription\_consumption\_budgets)
+
+Description: value of azurerm\_consumption\_budget\_subscription\_group.this
+
 ### <a name="output_azurerm_management_group_subscription_association"></a> [azurerm\_management\_group\_subscription\_association](#output\_azurerm\_management\_group\_subscription\_association)
 
 Description: value of azurerm\_management\_group\_subscription\_association.this
@@ -240,8 +244,9 @@ module "example" {
     source                 = "../.."
     billing_account_name   = "example-billing-account"
     subscription_name      = "example-subscription"
-    subscription_id        = "0fadbcd6-340e-446c-a047-8614f414dbc5"
     billing_account_scope  = "MCA"
+    billing_profile_name   = "example-billing-profile"
+    invoice_section_name   = "example-invoice-section"
 }
 ```
 ## Contributing
