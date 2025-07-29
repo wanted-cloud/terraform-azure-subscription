@@ -4,7 +4,7 @@ resource "azurerm_consumption_budget_subscription" "this" {
   }
 
   name            = each.value.name
-  subscription_id = azurerm_subscription.this.id
+  subscription_id = format("/subscriptions/%s", azurerm_subscription.this.subscription_id)
 
   amount     = each.value.amount
   time_grain = each.value.time_grain
