@@ -1,7 +1,7 @@
 resource "azurerm_management_group_subscription_association" "this" {
   count               = var.management_group_id != "" ? 1 : 0
   management_group_id = var.management_group_id != "" ? length(split("/", var.management_group_id)) == 1 ? format("/providers/Microsoft.Management/managementGroups/%s", var.management_group_id) : var.management_group_id : null
-  subscription_id     = azurerm_subscription.this.subscription_id
+  subscription_id     = format("/subscriptions/%s", azurerm_subscription.this.subscription_id)
 
   timeouts {
     create = try(
